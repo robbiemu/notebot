@@ -1,0 +1,3 @@
+$:.push(".").uniq!
+require "minimal_bar"
+require "minimal_foo"
