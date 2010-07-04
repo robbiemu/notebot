@@ -1,0 +1,33 @@
+# encoding: utf-8
+
+def buscar(m)
+  unless $banned.member?(m.nick)
+	  as = m.args[:text].split()
+	  dict = as[0]
+	  key = as[1]
+	  if as.length < 2
+	  	m.reply "format: !search <dict> <key>"
+		elsif not $dictionaries.member?(dict)
+			m.reply "no hay dictionario: #{dict}"
+		elsif not $dictionaries[dict].member?(key)
+			m.reply "no hay llave: #{key}"
+		else
+		  m.reply $dictionaries[ dict ][ key ]
+		end
+	end
+end
+$irc.plugin("buscar :text") do |m|
+	buscar(m)
+end
+$irc.plugin("b :text") do |m|
+	buscar(m)
+end
+$irc.plugin("search :text") do |m|
+	buscar(m)
+end
+$irc.plugin("s :text") do |m|
+	buscar(m)
+end
+$irc.plugin("? :text") do |m|
+	buscar(m)
+end
