@@ -1,10 +1,53 @@
 # encoding: utf-8
 
+if not File.directory? "users"
+	puts "Notebot: lib/admin - no users directory, creating"
+	Dir.mkdir "users"
+	FileUtils.touch "users/admins"
+	FileUtils.touch "users/authors"
+	FileUtils.touch "users/banned"
+else
+	if not File.exists? "users/admins"
+		puts "Notebot: lib/admin - missing users/admins, creating"
+		FileUtils.touch "users/admins"
+	end
+	if not File.exists? "users/authors"
+		puts "Notebot: lib/admin - missing users/admins, creating"
+
+		FileUtils.touch "users/authors"
+	end
+	if not File.exists? "users/banned"
+		puts "Notebot: lib/admin - missing users/admins, creating"
+		FileUtils.touch "users/banned"
+	end
+end
+
 module Admin
 	@@admins = Conf.marshal( "users/admins" ) || []
+	if @@admins.to_s.length < 47
+		puts "Notebot: loaded with admins: #{@@admins}"
+	else
+		puts "Notebot: loaded with #{@@admins.length} admins"
+	end
 	@@authors = Conf.marshal( "users/authors" ) || []
 	@@users = (@@admins + @@authors).uniq
 	@@banned = Conf.marshal( "users/banned" ) || []
+
+	@@one_time_register=true
+	@@uuid=%x{ uuidgen }.chomp
+	puts "Notebot: generated uuid: #{@@uuid}"
+
+	def uuid(cand)
+		@@uuid == cand
+	end
+
+	def one_time_register()
+		@@one_time_register
+	end
+
+	def one_time_register=(arg)
+		@@one_time_register=arg
+	end
 
 	def admins()
 		@@admins
@@ -41,9 +84,21 @@ end
 
 Notebot.extend( Admin )
 
+Notebot.irc.plugin "_register :text" do |m|
+	if Notebot.one_time_register 
+		if Notebot.uuid(m.args[:text])
+			Notebot.admins.push(m.nick).uniq!
+			Conf.marshal("users/admins", Notebot.admins)
+			m.reply "#{Notebot.admins}"
+			Notebot.one_time_register=false
+		else
+			m.reply "uuid y '#{m.args[:text]}' no coinciden"
+		end
+	end
+end
+
 module AdminUtilities
 	class << self
-
 		def _ban(m)
 			if Notebot.admins.member?(m.nick)
 				Notebot.banned = (Notebot.banned + m.args[:text]).uniq

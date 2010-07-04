@@ -31,7 +31,7 @@ module DictionaryAdmin
 					if not File.exists?( "dictionaries/#{dict}" )
 						m.reply "no hay dicitonario: #{dict}"
 					elsif Notebot.dictionaries.member?( dict )
-						m.reply "ya hay un dictionario llamado: #{dict}. usa !_recargar"
+						m.reply "ya hay un dictionario llamado '#{dict}'. usa !_recargar"
 					else
 						Notebot.dictionaries[ dict ] = Conf.marshal( "dictionaries/#{dict}" )
 					end
@@ -75,31 +75,49 @@ module DictionaryAdmin
 				end
 			end
 		end
+		
+		def _start(m)
+			if Notebot.admins.member?(m.nick)
+					dict = m.args[:text]
+				if not dict
+					m.reply "format: !_new <dict>"
+				elsif Notebot.dictionaries.member?( dict )
+					m.reply "ya hay un dictionario llamado '#{dict}'"		
+				else
+					Notebot.dictionaries[ dict ] = []
+				end
+			end
+		end
 
 	end
 end
 
-Notebot.irc.add_pattern(:saves, "_save|_guadar")
+Notebot.irc.add_pattern(:saves, /\!(?:_save|_guadar)\b/ )
 Notebot.irc.plugin(":v-saves :text", :prefix => false) do |m|
 	DictionaryAdmin._save(m)
 end
 
-Notebot.irc.add_pattern(:loads, "_load|_cargar")
+Notebot.irc.add_pattern(:loads, /\!(?:_load|_cargar)\b/ )
 Notebot.irc.plugin(":v-loads :text", :prefix => false) do |m|
 	DictionaryAdmin._load(m)
 end
 
-Notebot.irc.add_pattern(:reloads, "_reload|_recargar")
+Notebot.irc.add_pattern(:reloads, /\!(?:_reload|_recargar)\b/ )
 Notebot.irc.plugin(":v-reloads :text", :prefix => false) do |m|
 	DictionaryAdmin._reload(m)
 end
 
-Notebot.irc.add_pattern(:opens, "_open|_abrir")
+Notebot.irc.add_pattern(:opens, /\!(?:_open|_abrir)\b/ )
 Notebot.irc.plugin(":v-opens :text", :prefix => false) do |m|
 	DictionaryAdmin._open(m)
 end
 
-Notebot.irc.add_pattern(:closes, "_close|_cerrar")
+Notebot.irc.add_pattern(:closes, /\!(?:_close|_cerrar)\b/ )
 Notebot.irc.plugin(":v-closes :text", :prefix => false) do |m|
 	DictionaryAdmin._save(m)
+end
+
+Notebot.irc.add_pattern(:starts, /\!(?:_new|_nuevo)\b/ )
+Notebot.irc.plugin(":v-starts :text", :prefix => false) do |m|
+	DictionaryAdmin._start(m)
 end

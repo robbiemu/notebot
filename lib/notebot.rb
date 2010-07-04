@@ -31,6 +31,7 @@ module Notebot
 		def exit()
 			Notebot.on_exit
 			Notebot.irc.quit
+			exit()
 		end
 	end
 end
@@ -40,5 +41,6 @@ end
 		Notebot.irc.quit("Shutting down on SIGNAL")
 		Notebot.on_exit
 		puts "Notebot: on_exit wrapped up"
+		exit()
 	end
 end

@@ -27,7 +27,11 @@ module Conf
 				if data != nil
 					open(filename, "w") { |f| Marshal.dump(data, f) }
 				elsif File.exists?(filename)
-					open(filename) { |f| Marshal.load(f) }
+					begin
+						open(filename) { |f| Marshal.load(f) }
+					rescue
+						return nil
+					end
 				end
 			end
 		end

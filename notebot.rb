@@ -2,8 +2,8 @@
 # encoding: utf-8
 
 require 'cinch'
+require 'fileutils'
 
-# order-important
 $:.push(".").uniq! # ruby 1.9 load path bug-fix
 require 'lib/notebot'
 require 'lib/marshal'
@@ -11,8 +11,8 @@ require 'lib/marshal'
 	Conf.TMP_DIR = "/tmp"
 require 'lib/admin'
 
-# order unimportant
 require 'plugins/dictionaries'
+	Notebot.dictionaries_init()
 
 Notebot.irc.plugin "hello" do |m|
 	m.reply "Hello, #{m.nick} - I'm just a bot, not a human!"
