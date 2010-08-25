@@ -1,6 +1,9 @@
 #!/usr/bin/env ruby
 # encoding: utf-8
 
+#
+require 'rubygems'
+gem 'cinch', '= 0.3.1'
 require 'cinch'
 require 'fileutils'
 

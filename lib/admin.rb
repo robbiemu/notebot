@@ -101,12 +101,13 @@ module AdminUtilities
 	class << self
 		def _ban(m)
 			if Notebot.admins.member?(m.nick)
-				Notebot.banned = (Notebot.banned + m.args[:text]).uniq
+				Notebot.banned = (Notebot.banned + [ m.args[:text] ]).uniq
 
 				Notebot.admins = (Notebot.admins - [ m.args[:text] ]).uniq
 				Notebot.authors = (Notebot.authors - [ m.args[:text] ]).uniq
 				Notebot.users = (Notebot.users - [ m.args[:text] ]).uniq
 			end
+			m.reply( m.args[:v] + " " + m.args[:text] )
 		end
 
 		def _author(m)
@@ -114,6 +115,7 @@ module AdminUtilities
 				Notebot.authors = (Notebot.authors + [ m.args[:text] ]).uniq
 				Notebot.users = (Notebot.users + [ m.args[:text] ]).uniq
 			end
+			m.reply( m.args[:v] + " " + m.args[:text] )
 		end
 
 		def _admin(m)
@@ -121,11 +123,29 @@ module AdminUtilities
 				Notebot.admins = (Notebot.admins + [ m.args[:text] ]).uniq
 				Notebot.users = (Notebot.users + [ m.args[:text] ]).uniq
 			end
+			m.reply( m.args[:v] + " " + m.args[:text] )
+		end
+		
+		def _perms(m)
+			if Notebot.admins.member?(m.nick)
+				reply = []
+				if Notebot.admins.member?( m.args[:text] )
+					reply.push "admin"
+				end
+				if Notebot.users.member?( m.args[:text] )
+					reply.push "author"
+				end
+				if Notebot.banned.member?( m.args[:text] )
+					reply.push "banned"
+				end
+				m.reply( "permisos: " + m.args[:text] + " " + reply.to_s)
+			end
 		end
 		
 		def _users_save(m)
+			m.reply("bing")
 			if Notebot.admins.member?(m.nick)
-				m.reply "ho"
+				m.reply("ho")
 				ad = Notebot.admins.to_s.length 
 				au = Notebot.authors.to_s.length
 				b = Notebot.banned.to_s.length
@@ -136,12 +156,15 @@ module AdminUtilities
 
 					m.reply "spam en listas de usarios: ad·#{adc} au·#{auc} u·#{uc} b·#{bc}"
 				elsif %x{ du -sh users }.split("\t")[0] =~ /G/
-						m.reply "carpeta de gardarse está llena. no puedo completirlo."
+					m.reply "carpeta de gardarse está llena. no puedo completirlo."
 				else
 					Conf.marshal("users/admins", Notebot.admins)
 					Conf.marshal("users/authors", Notebot.authors)
 					Conf.marshal("users/banned", Notebot.banned)
-				end  
+					m.reply "estan escritos en el disco: ad·#{adc} au·#{auc} u·#{uc} b·#{bc}"
+				end
+			else
+				m.reply("damn")
 			end
 		end
 
@@ -157,17 +180,18 @@ module AdminUtilities
 				Notebot.users = (admins + authors).uniq
 				Notebot.banned = Conf.marshal( "users/banned" )
 			end
+			m.reply "se cargan: ad·#{adc} au·#{auc} u·#{uc} b·#{bc}"
 		end
 	end
 end
 
 Notebot.irc.add_pattern(:bans, "_ban|_excomulgar")
-Notebot.irc.plugin(":v-bans :text", :prefix => false) do |m|
+Notebot.irc.plugin("!:v-bans :text", :prefix => false) do |m|
 	AdminUtilities._ban(m)
 end
 
 Notebot.irc.add_pattern(:authors, "_author|_autor")
-Notebot.irc.plugin(":v-authors :text", :prefix => false) do |m|
+Notebot.irc.plugin("!:v-authors :text", :prefix => false) do |m|
 	AdminUtilities._author(m)
 end
 
@@ -175,14 +199,19 @@ Notebot.irc.plugin "_admin :text" do |m|
 	AdminUtilities._admin(m)
 end
 
-Notebot.irc.add_pattern(:users_saves, "_write_users|_guardar_cuentas")
-Notebot.irc.plugin(":v-users_saves :text", :prefix => false) do |m|
+Notebot.irc.add_pattern(:userssaves, "_write_users|_guardar_cuentas")
+Notebot.irc.plugin("!:v-userssaves :text", :prefix => false) do |m|
+m.reply("jeez")
 	AdminUtilities._users_save(m)
 end
 
-Notebot.irc.add_pattern(:users_loads, "_load_users|_cargar_cuentas")
-Notebot.irc.plugin(":v-users_loads :text", :prefix => false) do |m|
+Notebot.irc.add_pattern(:usersloads, "_load_users|_cargar_cuentas")
+Notebot.irc.plugin("!:v-usersloads :text", :prefix => false) do |m|
 	AdminUtilities._users_load(m)
+end
+
+Notebot.irc.plugin "_perms :text" do |m|
+	AdminUtilities._perms(m)
 end
 
 
