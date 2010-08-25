@@ -92,17 +92,17 @@ module DictionaryAuthor
 	end
 end
 
-Notebot.irc.add_pattern(:adds, /\+\s*(?:#{Notebot.dictionaries.join("|")})|\!(?:add|añadir|a|\+)/ )
+Notebot.irc.add_pattern(:adds, /\+\s*(?:#{Notebot.dictionaries.keys.join("|")})|\!(?:add|añadir|a|\+)/ )
 Notebot.irc.plugin(":dict-adds :text", :prefix => false) do |m|
 	DictionaryAuthor.add(m)
 end
 
-Notebot.irc.add_pattern(:replaces, /\~\s*(?:#{Notebot.dictionaries.join("|")})|\!(?:replace|reponer|r|\~)/ )
+Notebot.irc.add_pattern(:replaces, /\~\s*(?:#{Notebot.dictionaries.keys.join("|")})|\!(?:replace|reponer|r|\~)/ )
 Notebot.irc.plugin(":dict-replaces :text", :prefix => false) do |m|
 	DictionaryAuthor.replace(m)
 end
 
-Notebot.irc.add_pattern(:prunes, /\-\s*(?:#{Notebot.dictionaries.join("|")})|\!(?:prune|podar|p|\-)/ )
+Notebot.irc.add_pattern(:prunes, /\-\s*(?:#{Notebot.dictionaries.keys.join("|")})|\!(?:prune|podar|p|\-)/ )
 Notebot.irc.plugin(":dict-prunes :text", :prefix => false) do |m|
 	DictionaryAuthor.prune(m)
 end

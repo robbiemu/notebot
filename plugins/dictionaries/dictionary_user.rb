@@ -34,7 +34,7 @@ module DictionaryUtilities
 	end
 end
 
-Notebot.irc.add_pattern(:searches, /\?\s*(?:#{Notebot.dictionaries.join("|")})|\!(?:search|buscar|[sb]|\?)/ )
+Notebot.irc.add_pattern(:searches, /\?\s*(?:#{Notebot.dictionaries.keys.join("|")})|\!(?:search|buscar|[sb]|\?)/ )
 Notebot.irc.plugin(":dict-searches :text", :prefix => false) do |m|
 	DictionaryUtilities.buscar(m)
 end

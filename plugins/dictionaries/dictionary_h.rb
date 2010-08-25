@@ -2,7 +2,7 @@
 
 module Dictionaries
 
-	@@dictionaries = []
+	@@dictionaries = {}
 	@@closed = Conf.marshal("dictionaries_conf/closed") || []
 
 	def dictionaries_init()

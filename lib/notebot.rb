@@ -6,8 +6,8 @@ module Notebot
 		@@traps = []
 		@@irc = Cinch.setup :verbose => true do
 			server "irc.freenode.org"
-			nick "testing_notes"
-			channels %w(#notebot)
+			nick "crawl_ref"
+			channels %w(##crawl-ref)
 		end
 		
 		def irc()
