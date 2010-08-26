@@ -148,10 +148,10 @@ module DictionaryAdmin
 					_format = I18n.t("format", {:to => lang})
 					m.reply "#{_format}: #{pre}#{cmd} <dict>"
 				elsif Notebot.dictionaries.member?( dict )
-					_already = I18n("ya hay un diccionario llamado", {:from => es, :to => lang})
-					m.reply "#{already} '#{dict}'"		
+					_already = I18n.t("ya hay un diccionario llamado", {:from => :es, :to => lang})
+					m.reply "#{_already} '#{dict}'"		
 				else
-					Notebot.dictionaries[ dict ] = []
+					Notebot.dictionaries[ dict ] = {}
 				end
 			end
 		end

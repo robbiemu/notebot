@@ -7,9 +7,11 @@ module Dictionaries
 
 	def dictionaries_init()
 	#call init() after requiring this file
-		Dir.glob("dictionaries/*").reject{ |e| e =~ /~/}.select{|e| File.directory? e  }.each do |fh|
+		Dir.glob("dictionaries/*").reject{ |e| e =~ /~/}.select{|e| not File.directory? e  }.each do |fh|
 			# files not matching gedit and vi temporary files
-			Notebit.dictionaries[fh] = Conf.marshal("dictionaries/#{fh}")
+			dict = (fh.split("/"))[1]
+			Notebot.dictionaries[dict] = Conf.marshal(fh)
+			puts "Notebot: dictionary loaded: #{dict} (from #{fh})"
 		end
 	end
 
@@ -35,7 +37,8 @@ Notebot.extend ( Dictionaries )
 
 Notebot.trap lambda {
 	Notebot.dictionaries.each do |d|
-		Conf.marshal("dictionaries/#{d}", Notebot.dictionaries[d])
+		Conf.marshal("dictionaries/#{d[0]}", d[1])
+		puts "Notebot: dictionary saved: #{d[0]}: #{d[1]}"
 	end
 	Conf.marshal("dictionaries_conf/closed", Notebot.closed)
 }

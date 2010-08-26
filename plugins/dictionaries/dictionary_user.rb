@@ -7,9 +7,10 @@ module DictionaryUtilities
 		cmds = I18n.t( "search", {:to => Notebot.const(:default, :langs)} ).join("|")
 		pre = Notebot.const(:default, :cmd_prefix)
 		match_str = '(\?)\s*(.*)\s*(.*)|'+"#{pre}(#{cmds})"+'\s+(.*)\s*(.*)'
-		match /#{match_str}/
+		set_regex(/#{match_str}/)
+		match @@regex
 
-		def execute(m, cmd, dict, query)
+		def execute(m, cmd, query)
 			unless Notebot.banned.member?(m.user.nick)
 				if cmd == "?"
 					lang = Notebot.const(:default, :language)
@@ -17,13 +18,9 @@ module DictionaryUtilities
 					lang = I18n.lang_of(cmd, {:from => :en, :word => "search"})
 				end
 
-				if dict =~ /^\s*$/
-					format = true
-				elsif query =~ /^\s*$/
-					format = true
-				end
+				dict, key = query.split(/\s+/, 2)
 
-				if not format
+				if not dict or not key
 					_key = I18n.t("key", {:to => lang})
 					_format = I18n.t("format", {:to => lang})
 					_cmd = I18n.t("search", {:to => lang})
@@ -31,7 +28,7 @@ module DictionaryUtilities
 				elsif not Notebot.dictionaries.key?(dict)
 					_no_dict = I18n.t("no hay diccionario", {:from => :es, :to => lang})
 					m.reply "#{_no_dict}: #{dict}"
-				elsif not Notebot.closed.member?(dict)
+				elsif Notebot.closed.member?(dict)
 					_closed = I18n.t("el diccionario está cerrado", {:from => :es, :to => lang})				
 					m.reply "#{_closed}: #{dict}"					
 				elsif not Notebot.dictionaries[dict].key?(key)

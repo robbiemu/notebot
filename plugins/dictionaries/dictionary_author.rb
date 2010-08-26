@@ -40,7 +40,7 @@ module DictionaryAuthor
 				elsif not Notebot.dictionaries.key?(dict)
 					_no_dict = I18n.t("no hay diccionario", {:from => :es, :to => lang})
 					m.reply "#{_no_dict}: #{dict}"
-				elsif not Notebot.closed.member?(dict)
+				elsif Notebot.closed.member?(dict)
 					_closed = I18n.t("el diccionario está cerrado", {:from => :es, :to => lang})				
 					m.reply "#{_closed}: #{dict}"					
 				elsif Notebot.dictionaries[dict].member?(key)
@@ -50,6 +50,7 @@ module DictionaryAuthor
 					m.reply "#{_msg} #{pre}#{_reponer}"
 				else
 					Notebot.dictionaries[ dict ][ key ] = query
+					m.reply "#{dict} #{key} #{Notebot.dictionaries[ dict ][ key ]}"
 				end
 			end
 		end

@@ -18,7 +18,7 @@ module Notebot
 			@@irc = Cinch::Bot.new do
 				configure do |c|
 					c.plugins.prefix = ""
-					c.verbose = true
+					c.verbose = false
 				end
 			end
 			
@@ -117,9 +117,19 @@ module Notebot
 end
 
 class PluginBase
-  def self.inherited(subclass)
-    Notebot.plugin_to_register(subclass)
-  end
+	@@regex
+
+	def self.inherited(subclass)
+		Notebot.plugin_to_register(subclass)
+	end
+
+	def self.regex()
+		@@regex
+	end
+
+	def self.set_regex(r)
+		@@regex = r
+	end
 end
 
 ["HUP", "INT", "TERM"].each do |term|
