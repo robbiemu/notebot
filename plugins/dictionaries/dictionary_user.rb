@@ -1,30 +1,42 @@
 # encoding: utf-8
 
 module DictionaryUtilities
-	class << self
+	class Search < PluginBase
+		include Cinch::Plugin
 
-		def buscar(m)
+		cmds = I18n.t( "search", {:to => Notebot.const(:default, :langs)} ).join("|")
+		pre = Notebot.const(:default, :cmd_prefix)
+		match_str = '(\?)\s*(.*)\s*(.*)|#{pre}(#{cmds})\s+(.*)\s*(.*)'
+		match /#{match_str}/
+
+		def execute(m, cmd, dict, query)
 			unless Notebot.banned.member?(m.nick)
-				dict = key = ""
-				t = m.args[:text]
-				if m.args[:dict] =~ /^\?\s*/
-					dict = m.args[:dict].sub(/^\?\s*/, "")
-					if not t.sub!(/^\s*(\S+)\s*/) { || key = $1; "" }
-						format=true
-					end
+				if cmd == "?"
+					lang = Notebot.consts(:default, :language)
 				else
-					if not t.sub!(/^\s*(\S+)\s+(\S+)\s*/) { || dict = $1; key = $2; "" }
-						format= true			
-					end
+					lang = I18n.lang_of(cmd, {:from => :en, :word => "search"})
 				end
+
+				if dict =~ /^\s*$/
+					format = true
+				elsif query =~ /^\s*$/
+					format = true
+				end
+
 				if not format
-					m.reply "format: !search <dict> <key>"
-				elsif not Notebot.dictionaries.member?(dict)
-					m.reply "no hay dictionario: #{dict}"
+					_key = I18n.t("key", {:to => lang})
+					_format = I18n.t("format", {:to => lang})
+					_cmd = I18n.t("search", {:to => lang})
+					m.reply "#{_format}: !#{_cmd} <dict> <#{_key}>"
+				elsif not Notebot.dictionaries.key?(dict)
+					_no_dict = I18n.t("no hay diccionario", {:from => :es, :to => lang})
+					m.reply "#{_no_dict}: #{dict}"
 				elsif not Notebot.closed.member?(dict)
-					m.reply "el dictionario está cerrado: #{dict}"					
-				elsif not Notebot.dictionaries[dict].member?(key)
-					m.reply "no hay llave: #{key}"
+					_closed = I18n.t("el diccionario está cerrado", {:from => :es, :to => lang})				
+					m.reply "#{_closed}: #{dict}"					
+				elsif not Notebot.dictionaries[dict].key?(key)
+					_no_key = I18n.t("no hay llave", {:from => :es, :to => lang})
+					m.reply "#{_no_key}: #{key}"
 				else
 					m.reply Notebot.dictionaries[ dict ][ key ]
 				end
@@ -32,9 +44,4 @@ module DictionaryUtilities
 		end
 
 	end
-end
-
-Notebot.irc.add_pattern(:searches, /\?\s*(?:#{Notebot.dictionaries.keys.join("|")})|\!(?:search|buscar|[sb]|\?)/ )
-Notebot.irc.plugin(":dict-searches :text", :prefix => false) do |m|
-	DictionaryUtilities.buscar(m)
 end
