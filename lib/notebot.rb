@@ -13,6 +13,9 @@ module Notebot
 				:server => "irc.freenode.org",
 				:nick => "notebot",
 			}.merge irc_options
+			if not irc_options.member?(:channels)
+				puts "Notebot: channel -required- in irc hash (first) of Notebot.init"
+			end
 			settings_options = {
 				:langs => :en, 
 				:default_language => :en,

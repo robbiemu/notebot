@@ -17,7 +17,7 @@ require 'lib/marshal'
 	Conf.TMP_DIR = "/tmp"
 require 'lib/notebot'
 	Notebot.init(
-		{:server => "irc.freenode.net", :nick => "crawl_ref"},
+		{:server => "irc.freenode.net", :nick => "crawl_ref", :channel => %w(##crawl-ref)},
 		{:langs => [:en, :es], :cmd_prefix => "!"}
 	)
 require 'lib/admin'
@@ -38,5 +38,4 @@ class Default < PluginBase
 end
 Notebot.register_plugins
 
-Notebot.irc.join(%w{##crawl-ref})
 Notebot.irc.start
