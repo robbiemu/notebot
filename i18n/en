@@ -1,0 +1,38 @@
+--- 
+ban: 0
+author: 1
+admin: 2
+write users: 3
+load users: 4
+perms: 5
+and: 6
+are not equal: 7
+add: 8
+delete: 9
+spam in users lists: 10
+save dir is too full to complete saving the users lists.: 11
+save completed: 12
+no file for saving users in save dir: 13
+saved: 14
+search: 15
+format: 16
+no dictionary found: 17
+dictionary is closed: 18
+no key: 19
+key: 20
+the key already exists. instead use: 21
+replace: 22
+no such key in dictionary: 23
+guadar: 24
+dictionary: 25
+is too big to save: 26
+the save folder is full, save cannot be completed.: 27
+load: 28
+there is already a dictionary called: 29
+use: 30
+reload: 31
+completed: 32
+open: 33
+close: 34
+register: 35
+save: 36

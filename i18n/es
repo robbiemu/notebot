@@ -1,0 +1,38 @@
+--- 
+excomulgar: 0
+autor: 1
+admin: 2
+guardar cuentas: 3
+cargar cuentas: 4
+perms: 5
+y: 6
+no coinciden: 7
+añadir: 8
+borrar: 9
+spam en listas de usarios: 10
+carpeta de gardarse está llena. no puedo completirlo.: 11
+estan escritos en el disco: 12
+no existe ninguno archivo para usarios de grupo: 13
+se cargan: 14
+buscar: 15
+formato: 16
+no hay diccionario: 17
+el diccionario está cerrado: 18
+no hay llave: 19
+llave: 20
+ya existe la llave. usa en lugar de esa: 21
+reponer: 22
+no existe la llave: 23
+guadar: 24
+diccionario: 25
+es demasiado grande para gardarse: 26
+carpeta de gardar está llena. no se puede completirlo.: 27
+cargar: 28
+ya hay un diccionario llamado: 29
+usa: 30
+recargar: 31
+realizado: 32
+abrir: 33
+cerrar: 34
+matricular: 35
+guardar: 36 
