@@ -18,7 +18,7 @@ module Notebot
 			@@irc = Cinch::Bot.new do
 				configure do |c|
 					c.plugins.prefix = ""
-					c.verbose = false
+					c.verbose = true
 				end
 			end
 			
@@ -75,9 +75,9 @@ module Notebot
 			keys = keys.join("|")
 			
 			cmd = Notebot.const(options[:sym], :cmd_prefix)
-			cmd += options[:capture_word]? "(": ""
+			cmd += options[:capture_word]? "(": "(?:"
 			cmd += keys
-			cmd += options[:capture_word]? ")": ""
+			cmd += ")"
 			
 			return cmd + '\s+' + ((options[:post])? "(.*)": "")
 		end

@@ -51,7 +51,7 @@ module I18n
 			langs = []
 			
 			from = options[:from]
-			if not I18n.dictionaries.key?(from)
+			if not @@dictionaries.key?(from)
 				from = nil
 			end
 			

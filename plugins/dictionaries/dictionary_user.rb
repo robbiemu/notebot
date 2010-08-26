@@ -6,13 +6,13 @@ module DictionaryUtilities
 
 		cmds = I18n.t( "search", {:to => Notebot.const(:default, :langs)} ).join("|")
 		pre = Notebot.const(:default, :cmd_prefix)
-		match_str = '(\?)\s*(.*)\s*(.*)|#{pre}(#{cmds})\s+(.*)\s*(.*)'
+		match_str = '(\?)\s*(.*)\s*(.*)|'+"#{pre}(#{cmds})"+'\s+(.*)\s*(.*)'
 		match /#{match_str}/
 
 		def execute(m, cmd, dict, query)
 			unless Notebot.banned.member?(m.user.nick)
 				if cmd == "?"
-					lang = Notebot.consts(:default, :language)
+					lang = Notebot.const(:default, :language)
 				else
 					lang = I18n.lang_of(cmd, {:from => :en, :word => "search"})
 				end
