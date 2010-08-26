@@ -8,41 +8,27 @@ module Notebot
 		@@traps = []
 		@@irc = Cinch::Bot.new
 		
-		def init(irc_options, settings_options)
-			irc_options = {
-				:server => "irc.freenode.org",
-				:nick => "notebot",
-			}.merge irc_options
-			if not irc_options.member?(:channels)
-				puts "Notebot: channel -required- in irc hash (first) of Notebot.init"
-			end
-			settings_options = {
+		def init(options)
+			@@initial_options = {
 				:langs => :en, 
 				:default_language => :en,
 				:cmd_prefix => "!"
-			}.merge settings_options
-			@@initial_options = {
-				:irc => irc_options, 
-				:settings => settings_options
-			}
+			}.merge options
 			
 			@@irc = Cinch::Bot.new do
 				configure do |c|
-					c.server = irc_options[:server]
-					c.nick = irc_options[:nick]
-					c.channels = irc_options[:channels]
-					c.plugins.prefix = ""
+					c.plugins.prefix = "Notebot: Cinch:plugins:"
 					c.verbose = false
 				end
 			end
 			
-			@@constants[:default][:langs] = settings_options[:langs]
-			settings_options[:langs].each do |lang|
+			@@constants[:default][:langs] = @@initial_options[:langs]
+			@@initial_options[:langs].each do |lang|
 				I18n.add_dictionary( lang, YAML.load_file("i18n/#{lang}") || {})
 			end
-			@@constants[:default][:cmd_prefix] = settings_options[:cmd_prefix]
-			@@constants[:default][:language] = settings_options[:default_language]
-			I18n.default_language = settings_options[:default_language]
+			@@constants[:default][:cmd_prefix] = @@initial_options[:cmd_prefix]
+			@@constants[:default][:language] = @@initial_options[:default_language]
+			I18n.default_language = @@initial_options[:default_language]
 		end
 		
 		def irc()
