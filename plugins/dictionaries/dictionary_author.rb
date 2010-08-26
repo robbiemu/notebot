@@ -7,33 +7,32 @@ module DictionaryAuthor
 		cmds = I18n.t("add", {:to => Notebot.const(:default, :langs)}).join("|")
 		# beware that using I18n directly will not gracefully error out if the word is missing in the dictionaries
 		pre = Notebot.const(:default, :cmd_prefix)
-		match_str = '(\+)\s*(.*)\s*(.*)|'+"#{pre}(#{cmds})"+'\s+(.*)\s*(.*)'
+		match_str = '(\+)\s*(.*)|'+"#{pre}(#{cmds})"+'\s+(.*)'
 		match /#{match_str}/
 
-		def execute(m, cmd, dict, query)
+		def execute(m, cmd, query)
 			if Notebot.users.member?(m.user.nick)
 				if cmd == "+"
 					lang = Notebot.const(:default, :language)
 				else
-					lang = I18n.lang_of(cmd, {:from => :en, :word => "search"})
+					lang = I18n.lang_of(cmd, {:from => :en, :word => "add"})
 				end
+		
+				dict, query = query.split(/\s+/, 2)
 				
-				if dict =~ /^\s*$/
-					format = true
-				elsif query =~ /^\s*$/
-					format = true
-				end
-
 				if query =~ /^"(.*?)"/
 					key = $1
 					query.sub!(/^".*?"\s+/, "")
-					val = query
 				else
-					query.sub!(/^(\S+)\s+/)
+					query.sub!(/^(\S+)\s+/, "")
 					key = $1
 				end
 
-				if not format
+				if (query =~ /^\s*$/) or (dict =~ /^\s*$/) or (key =~ /^\s*$/)
+					format = true
+				end
+
+				if format
 					_key = I18n.t("key", {:to => lang})
 					_format = I18n.t("format", {:to => lang})
 					_cmd = I18n.t("add", {:to => lang})
@@ -61,15 +60,15 @@ module DictionaryAuthor
 		
 		cmds = I18n.t("replace", {:to => Notebot.const(:default, :langs)}).join("|")
 		pre = Notebot.const(:default, :cmd_prefix)
-		match_str = '(\+)\s*(.*)\s*(.*)|'+"#{pre}(#{cmds})"+'\s+(.*)\s*(.*)'
+		match_str = '(\/\/)\s*(.*)\s*(.*)|'+"#{pre}(#{cmds})"+'\s+(.*)\s*(.*)'
 		match /#{match_str}/
 
 		def execute(m, cmd, dict, query)		
 			if Notebot.users.member?(m.user.nick)
-				if cmd == "+"
+				if cmd == "//"
 					lang = Notebot.const(:default, :language)
 				else
-					lang = I18n.lang_of(cmd, {:from => :en, :word => "search"})
+					lang = I18n.lang_of(cmd, {:from => :en, :word => "replace"})
 				end
 				
 				if dict =~ /^\s*$/
@@ -83,7 +82,7 @@ module DictionaryAuthor
 					query.sub!(/^".*?"\s+/, "")
 					val = query
 				else
-					query.sub!(/^(\S+)\s+/)
+					query.sub!(/^(\S+)\s+/, "")
 					key = $1
 				end
 
@@ -118,10 +117,10 @@ module DictionaryAuthor
 
 		def execute(m, cmd, dict, key)		
 			if Notebot.users.member?(m.user.nick)
-				if cmd == "+"
+				if cmd == "-"
 					lang = Notebot.const(:default, :language)
 				else
-					lang = I18n.lang_of(cmd, {:from => :en, :word => "search"})
+					lang = I18n.lang_of(cmd, {:from => :en, :word => "prune"})
 				end
 				
 				if not format
