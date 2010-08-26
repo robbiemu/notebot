@@ -7,7 +7,7 @@ module DictionaryAdmin
 		match Notebot.gen_match("save", {:sym => :admin, :capture_word => true, :post => true})
 		
 		def execute(m, cmd, dict)
-			if Notebot.admins.member?(m.nick)
+			if Notebot.admins.member?(m.user.nick)
 				lang = I18n.lang_of( cmd, {:from => :en, :word => "save"})
 
 				if dict == ""
@@ -40,7 +40,7 @@ module DictionaryAdmin
 		match Notebot.gen_match("load", {:sym => :admin, :capture_word => true, :post => true})
 		
 		def execute(m, cmd, dict)
-			if Notebot.admins.member?(m.nick)
+			if Notebot.admins.member?(m.user.nick)
 				lang = I18n.lang_of( cmd, {:from => :en, :word => "save"})
 
 				if dict == ""
@@ -73,7 +73,7 @@ module DictionaryAdmin
 		match Notebot.gen_match("reload", {:sym => :admin, :capture_word => true, :post => true})
 		
 		def execute(m, cmd, dict)
-			if Notebot.admins.member?(m.nick)
+			if Notebot.admins.member?(m.user.nick)
 				lang = I18n.lang_of( cmd, {:from => :en, :word => "reload"})
 
 				if dict == ""
@@ -100,7 +100,7 @@ module DictionaryAdmin
 		match Notebot.gen_match("open", {:sym => :admin, :capture_word => true, :post => true})
 		
 		def execute(m, cmd, dict)
-			if Notebot.admins.member?(m.nick)
+			if Notebot.admins.member?(m.user.nick)
 				lang = I18n.lang_of( cmd, {:from => :en, :word => "open"})
 
 				if dict == ""
@@ -120,7 +120,7 @@ module DictionaryAdmin
 		match Notebot.gen_match("close", {:sym => :admin, :capture_word => true, :post => true})
 		
 		def execute(m, cmd, dict)
-			if Notebot.admins.member?(m.nick)
+			if Notebot.admins.member?(m.user.nick)
 				lang = I18n.lang_of( cmd, {:from => :en, :word => "close"})
 
 				if dict == ""
@@ -140,7 +140,7 @@ module DictionaryAdmin
 		match Notebot.gen_match("start", {:sym => :admin, :capture_word => true, :post => true})
 		
 		def execute(m, cmd, dict)
-			if Notebot.admins.member?(m.nick)
+			if Notebot.admins.member?(m.user.nick)
 				lang = I18n.lang_of( cmd, {:from => :en, :word => "start"})
 
 				if dict == ""

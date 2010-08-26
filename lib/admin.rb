@@ -106,7 +106,7 @@ module AdminUtilies
 			lang = I18n.lang_of(cmd, {:from => :en, :word => "register"})
 			if Notebot.one_time_register 
 				if Notebot.uuid?(uuid)
-					Notebot.admins.push(m.nick).uniq!
+					Notebot.admins.push(m.user.nick).uniq!
 					Conf.marshal("users/admins", Notebot.admins)
 						m.reply "#{Notebot.admins}"
 					Notebot.one_time_register=false
@@ -125,7 +125,7 @@ module AdminUtilies
 		match Notebot.gen_match("ban", {:sym => :admin, :capture_word => true, :post => true})
 		
 		def execute(m, cmd, target)
-			if Notebot.admins.member?(m.nick)
+			if Notebot.admins.member?(m.user.nick)
 				type =  "+"
 				lang = I18n.lang_of( cmd, {:from => :en, :word => "ban"})
 				type_desc = I18n.t("add", {:to => lang})
@@ -155,7 +155,7 @@ module AdminUtilies
 		match Notebot.gen_match("author", {:sym => :admin, :capture_word => true, :post => true})
 		
 		def execute(m, cmd, target)
-			if Notebot.admins.member?(m.nick)
+			if Notebot.admins.member?(m.user.nick)
 				type =  "+"
 				lang = I18n.lang_of( cmd, {:from => :en, :word => "author"})
 				type_desc = I18n.t("add", {:to => lang})
@@ -183,7 +183,7 @@ module AdminUtilies
 		match Notebot.gen_match("admin", {:sym => :admin, :capture_word => true, :post => true})
 		
 		def execute(m, cmd, target)
-			if Notebot.admins.member?(m.nick)
+			if Notebot.admins.member?(m.user.nick)
 				type =  "+"
 				lang = I18n.lang_of( cmd, {:from => :en, :word => "admin"})
 				type_desc = I18n.t("add", {:to => lang})
@@ -211,7 +211,7 @@ module AdminUtilies
 		match Notebot.gen_match("perms", {:sym => :admin, :post => true})
 
 		def execute(m, target)
-			if Notebot.admins.member?(m.nick)
+			if Notebot.admins.member?(m.user.nick)
 				reply = []
 				if Notebot.admins.member?( target )
 					reply.push "admin"
@@ -233,7 +233,7 @@ module AdminUtilies
 		match Notebot.gen_match("write users", {:sym => :admin, :capture_word => true})
 		
 		def execute(m, cmd)
-			if Notebot.admins.member?(m.nick)
+			if Notebot.admins.member?(m.user.nick)
 				lang = I18n.lang_of( cmd, {:from => :en, :word => "write users"})
 				ad = Notebot.admins.to_s.length 
 				au = Notebot.authors.to_s.length
@@ -269,7 +269,7 @@ module AdminUtilies
 		
 		def execute(m, cmd)
 			lang = I18n.lang_of( cmd, {:from => :en, :word => "load users"})
-			if Notebot.admins.member?(m.nick)
+			if Notebot.admins.member?(m.user.nick)
 				["admins", "authors", "banned"].each do |fh|
 					if not File.exists?( "users/#{fh}" )
 						_no_user = I18n.t("no existe ninguno archivo para usarios de grupo", {:from => :es, :to => lang})

@@ -11,7 +11,7 @@ module DictionaryAuthor
 		match /#{match_str}/
 
 		def execute(m, cmd, dict, query)
-			if Notebot.users.member?(m.nick)
+			if Notebot.users.member?(m.user.nick)
 				if cmd == "+"
 					lang = Notebot.consts(:default, :language)
 				else
@@ -65,7 +65,7 @@ module DictionaryAuthor
 		match /#{match_str}/
 
 		def execute(m, cmd, dict, query)		
-			if Notebot.users.member?(m.nick)
+			if Notebot.users.member?(m.user.nick)
 				if cmd == "+"
 					lang = Notebot.consts(:default, :language)
 				else
@@ -117,7 +117,7 @@ module DictionaryAuthor
 		match /#{match_str}/
 
 		def execute(m, cmd, dict, key)		
-			if Notebot.users.member?(m.nick)
+			if Notebot.users.member?(m.user.nick)
 				if cmd == "+"
 					lang = Notebot.consts(:default, :language)
 				else

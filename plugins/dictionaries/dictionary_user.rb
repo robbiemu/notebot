@@ -10,7 +10,7 @@ module DictionaryUtilities
 		match /#{match_str}/
 
 		def execute(m, cmd, dict, query)
-			unless Notebot.banned.member?(m.nick)
+			unless Notebot.banned.member?(m.user.nick)
 				if cmd == "?"
 					lang = Notebot.consts(:default, :language)
 				else

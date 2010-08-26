@@ -27,13 +27,14 @@ require 'plugins/dictionaries'
 class Default < PluginBase
 	include Cinch::Plugin
 	
-	match "hello"
+	match "#{Notebot.const(:default, :cmd_prefix)}hello"
 	
 	def execute(m)
-		m.reply "Hello, #{m.nick} - I'm just a bot, not a human!"
+		m.reply "Hello, #{m.user.nick} - I'm just a bot, not a human!"
 	end
 end
 Notebot.register_plugins()
+Notebot.irc.config.verbose = true
 
 Notebot.irc.config.server = "irc.freenode.net"
 Notebot.irc.config.nick = "crawl_ref"

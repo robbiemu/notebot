@@ -17,7 +17,7 @@ module Notebot
 			
 			@@irc = Cinch::Bot.new do
 				configure do |c|
-					c.plugins.prefix = "Notebot: Cinch:plugins:"
+					c.plugins.prefix = ""
 					c.verbose = false
 				end
 			end
