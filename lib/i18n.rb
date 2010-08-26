@@ -38,7 +38,6 @@ module I18n
 				end
 				@@reverse_dictionaries[ dict[k] ][ key ] = k
 			end
-#puts "Notebot: i18n: added dictionary at #{key.to_s}: #{dict.to_s[0..30] + '...'}"
 		end
 
 		def remove_dictionary(key)

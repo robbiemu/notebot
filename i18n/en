@@ -36,3 +36,5 @@ open: 33
 close: 34
 register: 35
 save: 36
+start: 37
+prune: 38

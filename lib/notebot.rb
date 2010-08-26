@@ -4,6 +4,7 @@ module Notebot
 	class << self
 	
 		@@constants = {:default => {}}
+		@@plugins = []
 		@@traps = []
 		@@irc = Cinch::Bot.new
 		
@@ -28,6 +29,7 @@ module Notebot
 					c.nick = irc_options[:nick]
 					c.channels = irc_options[:channels]
 					c.plugins.prefix = ""
+					c.verbose = false
 				end
 			end
 			
@@ -79,7 +81,7 @@ module Notebot
 			keys = I18n.t(string, {:to => options[:langs]})
 			if keys.nil?
 				puts "Notebot: i18n: missing keys for string:#{string} in languages:" + options[:langs].to_s
-				
+				Kernel.exit
 			end
 			keys = keys.join("|")
 			
@@ -96,6 +98,17 @@ module Notebot
 			return /#{regex}/
 		end
 		
+		def plugin_to_register(p)
+		
+			@@plugins.push(p)
+		end
+		
+		def register_plugins()
+			@@plugins.each do |p|
+				Notebot.irc.register_plugin(p)
+			end
+		end
+		
 		def trap(p)
 			@@traps.push(p)
 		end
@@ -109,14 +122,14 @@ module Notebot
 		def exit()
 			Notebot.on_exit
 			Notebot.irc.quit
-			exit()
+			Kernel.exit()
 		end
 	end
 end
 
 class PluginBase
   def self.inherited(subclass)
-    Notebot.irc.register_plugin(subclass)
+    Notebot.plugin_to_register(subclass)
   end
 end
 

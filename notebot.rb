@@ -27,7 +27,7 @@ require 'plugins/dictionaries'
 	Notebot.dictionaries_init()
 
 
-class Default
+class Default < PluginBase
 	include Cinch::Plugin
 	
 	match "hello"
@@ -36,8 +36,7 @@ class Default
 		m.reply "Hello, #{m.nick} - I'm just a bot, not a human!"
 	end
 end
-Notebot.irc.register_plugin( Default )
+Notebot.register_plugins
 
-
-Notebot.join(%w{##crawl-ref})
+Notebot.irc.join(%w{##crawl-ref})
 Notebot.irc.start

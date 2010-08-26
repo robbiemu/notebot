@@ -35,4 +35,6 @@ realizado: 32
 abrir: 33
 cerrar: 34
 matricular: 35
-guardar: 36 
+guardar: 36
+iniciar: 37
+podar: 38
