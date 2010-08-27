@@ -61,7 +61,7 @@ module Notebot
 
 		def raw_gen_match(string, options)
 			options = {
-				:sym => Notebot.const(:default, :cmd_prefix),
+				:sym => :default,
 				:langs => Notebot.const(:default, :langs), 
 				:capture_word => false, 
 				:post => false}.merge options
@@ -86,9 +86,12 @@ module Notebot
 			regex = Notebot.raw_gen_match(*args)
 			return /#{regex}/
 		end
-		
+
+		def plugins()
+			@@plugins
+		end
+
 		def plugin_to_register(p)
-		
 			@@plugins.push(p)
 		end
 		
@@ -117,24 +120,15 @@ module Notebot
 end
 
 class PluginBase
-	@@regex
-
 	def self.inherited(subclass)
 		Notebot.plugin_to_register(subclass)
-	end
-
-	def self.regex()
-		@@regex
-	end
-
-	def self.set_regex(r)
-		@@regex = r
 	end
 end
 
 ["HUP", "INT", "TERM"].each do |term|
 	Signal.trap(term) do
 		Notebot.irc.quit("Shutting down on SIG" + term)
+		puts "\n"
 		Notebot.on_exit
 		puts "Notebot: on_exit wrapped up"
 		exit()

@@ -99,8 +99,9 @@ Notebot.extend( Admin )
 module AdminUtilies
 	class Register < PluginBase
 		include Cinch::Plugin
-		
-		match Notebot.gen_match("register", {:sym => :admin, :capture_word => true, :post => true})
+		CMD_PREFIX = :admin
+		Regex = Notebot.gen_match("register", {:sym => :admin, :capture_word => true, :post => true})
+		match Regex
 		
 		def execute(m, cmd, uuid)
 			lang = I18n.lang_of(cmd, {:from => :en, :word => "register"})
@@ -121,8 +122,9 @@ module AdminUtilies
 
 	class Ban < PluginBase
 		include Cinch::Plugin
-		
-		match Notebot.gen_match("ban", {:sym => :admin, :capture_word => true, :post => true})
+		CMD_PREFIX = :admin
+		Regex = Notebot.gen_match("ban", {:sym => :admin, :capture_word => true, :post => true})
+		match Regex
 		
 		def execute(m, cmd, target)
 			if Notebot.admins.member?(m.user.nick)
@@ -144,15 +146,16 @@ module AdminUtilies
 					type_desc = I18n.t("delete", {:to => lang})
 				end
 				_realizado = I18n.t("realizado", {:to => lang})
-				m.reply "#{realizado} ‒ #{cmd} (#{type_desc}) #{target}"
+				m.reply "#{_realizado} ‒ #{cmd} (#{type_desc}) #{target}"
 			end
 		end
 	end
 
 	class Author < PluginBase
 		include Cinch::Plugin
-		
-		match Notebot.gen_match("author", {:sym => :admin, :capture_word => true, :post => true})
+		CMD_PREFIX = :admin
+		Regex = Notebot.gen_match("author", {:sym => :admin, :capture_word => true, :post => true})
+		match Regex
 		
 		def execute(m, cmd, target)
 			if Notebot.admins.member?(m.user.nick)
@@ -172,15 +175,16 @@ module AdminUtilies
 					type_desc = I18n.t("delete", {:to => lang})
 				end
 				_realizado = I18n.t("realizado", {:to => lang})
-				m.reply "#{realizado} ‒ #{cmd} (#{type_desc}) #{target}"
+				m.reply "#{_realizado} ‒ #{cmd} (#{type_desc}) #{target}"
 			end
 		end
 	end
 
 	class Admin < PluginBase
 		include Cinch::Plugin
-		
-		match Notebot.gen_match("admin", {:sym => :admin, :capture_word => true, :post => true})
+		CMD_PREFIX = :admin
+		Regex = Notebot.gen_match("admin", {:sym => :admin, :capture_word => true, :post => true})
+		match Regex
 		
 		def execute(m, cmd, target)
 			if Notebot.admins.member?(m.user.nick)
@@ -200,15 +204,16 @@ module AdminUtilies
 					type_desc = I18n.t("delete", {:to => lang})
 				end
 				_realizado = I18n.t("realizado", {:to => lang})
-				m.reply "#{realizado} ‒ #{cmd} (#{type_desc}) #{target}"
+				m.reply "#{_realizado} ‒ #{cmd} (#{type_desc}) #{target}"
 			end
 		end
 	end
 	
 	class Permissions < PluginBase
 		include Cinch::Plugin
-		
-		match Notebot.gen_match("perms", {:sym => :admin, :post => true})
+		CMD_PREFIX = :admin
+		Regex = Notebot.gen_match("perms", {:sym => :admin, :post => true})
+		match Regex
 
 		def execute(m, target)
 			if Notebot.admins.member?(m.user.nick)
@@ -229,8 +234,9 @@ module AdminUtilies
 	
 	class WriteUsers < PluginBase
 		include Cinch::Plugin
-		
-		match Notebot.gen_match("write users", {:sym => :admin, :capture_word => true})
+		CMD_PREFIX = :admin
+		Regex = Notebot.gen_match("write users", {:sym => :admin, :capture_word => true})
+		match Regex
 		
 		def execute(m, cmd)
 			if Notebot.admins.member?(m.user.nick)
@@ -257,15 +263,16 @@ module AdminUtilies
 				end
 				
 				_realizado = I18n.t("realizado", {:to => lang})
-				m.reply "#{realizado} ‒ #{cmd} (#{type_desc}) #{target}"
+				m.reply "#{_realizado} ‒ #{cmd} (#{type_desc}) #{target}"
 			end
 		end
 	end
 
 	class LoadUsers < PluginBase
 		include Cinch::Plugin
-		
-		match Notebot.gen_match("load users", {:sym => :admin, :capture_word => true})
+		CMD_PREFIX = :admin
+		Regex = Notebot.gen_match("load users", {:sym => :admin, :capture_word => true})
+		match Regex
 		
 		def execute(m, cmd)
 			lang = I18n.lang_of( cmd, {:from => :en, :word => "load users"})

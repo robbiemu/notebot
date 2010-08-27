@@ -38,3 +38,10 @@ register: 35
 save: 36
 start: 37
 prune: 38
+help: 39
+regex: 40
+commands: 41
+list: 42
+plugins: 43
+hello: 44
+dictionaries: 45

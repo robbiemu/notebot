@@ -7,8 +7,8 @@ module DictionaryAuthor
 		cmds = I18n.t("add", {:to => Notebot.const(:default, :langs)}).join("|")
 		# beware that using I18n directly will not gracefully error out if the word is missing in the dictionaries
 		pre = Notebot.const(:default, :cmd_prefix)
-		match_str = '(\+)\s*(.*)|'+"#{pre}(#{cmds})"+'\s+(.*)'
-		match /#{match_str}/
+		Regex = '(\+)\s*(.*)|'+"#{pre}(#{cmds})"+'\s+(.*)'
+		match Regex
 
 		def execute(m, cmd, query)
 			if Notebot.users.member?(m.user.nick)
@@ -61,8 +61,8 @@ module DictionaryAuthor
 		
 		cmds = I18n.t("replace", {:to => Notebot.const(:default, :langs)}).join("|")
 		pre = Notebot.const(:default, :cmd_prefix)
-		match_str = '(\/\/)\s*(.*)\s*(.*)|'+"#{pre}(#{cmds})"+'\s+(.*)\s*(.*)'
-		match /#{match_str}/
+		Regex = '(\/\/)\s*(.*)\s*(.*)|'+"#{pre}(#{cmds})"+'\s+(.*)\s*(.*)'
+		match Regex
 
 		def execute(m, cmd, dict, query)		
 			if Notebot.users.member?(m.user.nick)
@@ -113,8 +113,8 @@ module DictionaryAuthor
 		
 		cmds = I18n.t("prune", {:to => Notebot.const(:default, :langs)}).join("|")
 		pre = Notebot.const(:default, :cmd_prefix)
-		match_str = '(\-)\s*(.*)\s*(.*)|'+"#{pre}(#{cmds})"+'\s+(.*)\s*(.*)'
-		match /#{match_str}/
+		Regex = '(\-)\s*(.*)\s*(.*)|'+"#{pre}(#{cmds})"+'\s+(.*)\s*(.*)'
+		match Regex
 
 		def execute(m, cmd, dict, key)		
 			if Notebot.users.member?(m.user.nick)

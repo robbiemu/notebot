@@ -17,6 +17,7 @@ require 'lib/marshal'
 	Conf.TMP_DIR = "/tmp"
 require 'lib/notebot'
 	Notebot.init({:langs => [:en, :es], :cmd_prefix => "!"})
+require 'lib/user'
 require 'lib/admin'
 
 # plugins

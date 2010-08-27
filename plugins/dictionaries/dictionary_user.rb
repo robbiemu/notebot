@@ -7,8 +7,8 @@ module DictionaryUtilities
 		cmds = I18n.t( "search", {:to => Notebot.const(:default, :langs)} ).join("|")
 		pre = Notebot.const(:default, :cmd_prefix)
 		match_str = '(\?)\s*(.*)\s*(.*)|'+"#{pre}(#{cmds})"+'\s+(.*)\s*(.*)'
-		set_regex(/#{match_str}/)
-		match @@regex
+		Regex = /#{match_str}/
+		match Regex
 
 		def execute(m, cmd, query)
 			unless Notebot.banned.member?(m.user.nick)

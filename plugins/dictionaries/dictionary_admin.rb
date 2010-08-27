@@ -3,8 +3,9 @@
 module DictionaryAdmin
 	class Save < PluginBase
 		include Cinch::Plugin
-		
-		match Notebot.gen_match("save", {:sym => :admin, :capture_word => true, :post => true})
+		CMD_PREFIX = :admin	
+		Regex = Notebot.gen_match("save", {:sym => :admin, :capture_word => true, :post => true})
+		match Regex
 		
 		def execute(m, cmd, dict)
 			if Notebot.admins.member?(m.user.nick)
@@ -36,8 +37,9 @@ module DictionaryAdmin
 
 	class Load < PluginBase
 		include Cinch::Plugin
-		
-		match Notebot.gen_match("load", {:sym => :admin, :capture_word => true, :post => true})
+		CMD_PREFIX = :admin	
+		Regex = Notebot.gen_match("load", {:sym => :admin, :capture_word => true, :post => true})
+		match Regex
 		
 		def execute(m, cmd, dict)
 			if Notebot.admins.member?(m.user.nick)
@@ -69,8 +71,9 @@ module DictionaryAdmin
 
 	class Reload < PluginBase
 		include Cinch::Plugin
-		
-		match Notebot.gen_match("reload", {:sym => :admin, :capture_word => true, :post => true})
+		CMD_PREFIX = :admin
+		Regex = Notebot.gen_match("reload", {:sym => :admin, :capture_word => true, :post => true})
+		match Regex
 		
 		def execute(m, cmd, dict)
 			if Notebot.admins.member?(m.user.nick)
@@ -96,8 +99,9 @@ module DictionaryAdmin
 
 	class Open < PluginBase
 		include Cinch::Plugin
-		
-		match Notebot.gen_match("open", {:sym => :admin, :capture_word => true, :post => true})
+		CMD_PREFIX = :admin	
+		Regex = Notebot.gen_match("open", {:sym => :admin, :capture_word => true, :post => true})
+		match Regex
 		
 		def execute(m, cmd, dict)
 			if Notebot.admins.member?(m.user.nick)
@@ -116,8 +120,9 @@ module DictionaryAdmin
 	
 	class Close < PluginBase
 		include Cinch::Plugin
-		
-		match Notebot.gen_match("close", {:sym => :admin, :capture_word => true, :post => true})
+		CMD_PREFIX = :admin	
+		Regex = Notebot.gen_match("close", {:sym => :admin, :capture_word => true, :post => true})
+		match Regex
 		
 		def execute(m, cmd, dict)
 			if Notebot.admins.member?(m.user.nick)
@@ -136,8 +141,9 @@ module DictionaryAdmin
 		
 	class Start < PluginBase
 		include Cinch::Plugin
-		
-		match Notebot.gen_match("start", {:sym => :admin, :capture_word => true, :post => true})
+		CMD_PREFIX = :admin	
+		Regex = Notebot.gen_match("start", {:sym => :admin, :capture_word => true, :post => true})
+		match Regex
 		
 		def execute(m, cmd, dict)
 			if Notebot.admins.member?(m.user.nick)
